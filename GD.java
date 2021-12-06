@@ -57,16 +57,19 @@ public class GD extends Optimizer {
         for(int i = 0; i < dbs.size(); i++){
             dbs.set(i, dbs.get(i).multiply(learning_rate));
         }
-
-        for(int i = 0; i < w.size(); i++){
-            w.set(i, w.get(i).subtract(dws.get(w.size()-i-1)));
+        int num_layers = m.getNumLayers();
+        for(int i = 0; i < num_layers; i++){
+            // w.get(i).print();
+            // // System.out.println();
+            // dws.get(num_layers-i-1).print();
+            w.set(i, w.get(i).subtract(dws.get(num_layers-i-1)));
         }
 
         // subtract dbs from b
         ArrayList<Matrix> old_biases = m.getBiases();
 
-        for (int i = 0; i < old_biases.size(); i++){
-            old_biases.set(i, old_biases.get(i).subtract(dbs.get(old_biases.size()-i-1)));
+        for (int i = 0; i < num_layers; i++){
+            old_biases.set(i, old_biases.get(i).subtract(dbs.get(num_layers-i-1)));
         }
 
         // set model parameters to new values
@@ -77,4 +80,5 @@ public class GD extends Optimizer {
 
         return loss;
     }
+    
 }
